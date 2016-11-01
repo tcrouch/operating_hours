@@ -6,10 +6,6 @@ describe BetterBusinessTime::Time do
       described_class.between(*args)
     end
 
-    before do
-      BetterBusinessTime::WeekdayHolidays.set([d('Wed Nov 7')])
-    end
-
     it 'returns business time between two times two days apart' do
       expect(described_method(t('Mon Oct 31', '17:01'), t('Wed Nov 2', '8:59'))).to eq(8 * 3600)
       expect(described_method(t('Mon Oct 31', '16:00'), t('Wed Nov 2', '8:59'))).to eq(9 * 3600)

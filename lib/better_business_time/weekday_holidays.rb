@@ -3,12 +3,13 @@ require 'set'
 module BetterBusinessTime
   class WeekdayHolidays
     def self.set(array)
-      sorted_holidays = SortedSet.new(array)
-      first_holiday = sorted_holidays.min
-      last_holiday = sorted_holidays.max
-
       count = 0
       @dates = {}
+
+      sorted_holidays = SortedSet.new(array)
+      return if sorted_holidays.empty?
+      first_holiday = sorted_holidays.min
+      last_holiday = sorted_holidays.max
 
       (first_holiday..last_holiday).each do |date|
         is_holiday = sorted_holidays.include?(date) && !date.saturday? && !date.sunday?
