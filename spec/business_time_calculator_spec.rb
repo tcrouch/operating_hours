@@ -3,7 +3,7 @@ require 'spec_helper'
 describe BusinessTimeCalculator do
   describe '.between' do
     def described_method(*args)
-      described_class.between(*args)
+      described_class.new.between(*args)
     end
 
     it 'returns business time between two times two days apart' do
@@ -113,7 +113,7 @@ describe BusinessTimeCalculator do
 
   describe '.days_between' do
     def described_method(*args)
-      described_class.days_between(*args)
+      described_class.new.days_between(*args)
     end
 
     it 'returns business days between two dates starting Monday' do
@@ -209,7 +209,7 @@ describe BusinessTimeCalculator do
 
   describe '.weekend_days_between' do
     def described_method(*args)
-      described_class.weekend_days_between(*args)
+      described_class.new.weekend_days_between(*args)
     end
 
     describe 'when distance <= 1 week' do
@@ -374,7 +374,7 @@ describe BusinessTimeCalculator do
 
   describe '.time_intersection' do
     def described_method(*args)
-      described_class.time_intersection(*args)
+      described_class.new.time_intersection(*args)
     end
 
     it 'returns the time intersection between two segments' do
