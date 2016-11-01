@@ -10,7 +10,7 @@ describe BetterBusinessTime::WeekdayHolidays do
       described_class.between(*args)
     end
 
-    it 'returns holidays between two ds' do
+    it 'returns holidays between two days' do
       expect(described_method(d('Mon Oct 31'), d('Wed Nov 2'))).to eq(1)
     end
 
@@ -18,9 +18,9 @@ describe BetterBusinessTime::WeekdayHolidays do
       expect(described_method(d('Sat Oct 29'), d('Wed Nov 2'))).to eq(1)
     end
 
-    it 'adds the extremes' do
-      expect(described_method(d('Tue Nov 1'), d('Thu Nov 3'))).to eq(1)
-      expect(described_method(d('Sat Oct 29'), d('Tue Nov 1'))).to eq(1)
+    it 'excludes the edges' do
+      expect(described_method(d('Tue Nov 1'), d('Thu Nov 3'))).to eq(0)
+      expect(described_method(d('Sat Oct 29'), d('Tue Nov 1'))).to eq(0)
     end
   end
 end
