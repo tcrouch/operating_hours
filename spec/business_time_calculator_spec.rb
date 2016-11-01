@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BusinessTimeCalculator::Time do
+describe BusinessTimeCalculator do
   describe '.between' do
     def described_method(*args)
       described_class.between(*args)

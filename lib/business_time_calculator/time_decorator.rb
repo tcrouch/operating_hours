@@ -1,25 +1,23 @@
 require 'delegate'
 
-module BusinessTimeCalculator
-  class TimeDecorator < SimpleDelegator
-    def seconds_in_day
-      hour * 3600 + min * 60 + sec
-    end
+class BusinessTimeCalculator::TimeDecorator < SimpleDelegator
+  def seconds_in_day
+    hour * 3600 + min * 60 + sec
+  end
 
-    def workday?
-      weekday? && !holiday?
-    end
+  def workday?
+    weekday? && !holiday?
+  end
 
-    def weekday?
-      !weekend?
-    end
+  def weekday?
+    !weekend?
+  end
 
-    def weekend?
-      saturday? || sunday?
-    end
+  def weekend?
+    saturday? || sunday?
+  end
 
-    def holiday?
-      WeekdayHolidays.holiday?(self.to_date)
-    end
+  def holiday?
+    BusinessTimeCalculator::WeekdayHolidays.holiday?(self.to_date)
   end
 end
