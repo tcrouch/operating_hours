@@ -111,9 +111,9 @@ describe BetterBusinessTime::Time do
     end
   end
 
-  describe '.overlap' do
+  describe '.time_intersection' do
     def described_method(*args)
-      described_class.segment_intersection(*args)
+      described_class.time_intersection(*args)
     end
 
     it 'returns the time intersection between two segments' do
