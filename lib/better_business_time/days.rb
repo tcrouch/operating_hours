@@ -15,7 +15,7 @@ module BetterBusinessTime
     end
 
     def self.weekend_days_between(first_date, last_date)
-      full_weeks = calendar_days_between(first_date, last_date) / 7
+      full_weeks = (calendar_days_between(first_date, last_date) + 1) / 7
       weekend_days = full_weeks * 2
       first_wday = first_date.wday
       last_wday = last_date.wday
