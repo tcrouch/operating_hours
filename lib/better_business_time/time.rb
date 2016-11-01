@@ -16,13 +16,13 @@ module BetterBusinessTime
     def self.business_time_before(time)
       return 0 if !time.workday?
 
-      time_intersection([BEGINNING_OF_DAY, time.since_beginning_of_day], [BEGINNING_OF_DAY, END_OF_DAY])
+      time_intersection([BEGINNING_OF_DAY, time.seconds_in_day], [BEGINNING_OF_DAY, END_OF_DAY])
     end
 
     def self.business_time_after(time)
       return 0 if !time.workday?
 
-      time_intersection([time.since_beginning_of_day, END_OF_DAY], [BEGINNING_OF_DAY, END_OF_DAY])
+      time_intersection([time.seconds_in_day, END_OF_DAY], [BEGINNING_OF_DAY, END_OF_DAY])
     end
 
     def self.time_intersection(segment1, segment2)
