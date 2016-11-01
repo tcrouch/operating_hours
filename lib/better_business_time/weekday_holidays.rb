@@ -22,7 +22,7 @@ module BetterBusinessTime
     end
 
     def self.between(first_date, second_date)
-      before(second_date) - before(first_date + 1)
+      before(second_date + 1) - before(first_date)
     end
 
     def self.before(date)

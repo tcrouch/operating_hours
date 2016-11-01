@@ -18,9 +18,9 @@ describe BetterBusinessTime::WeekdayHolidays do
       expect(described_method(d('Sat Oct 29'), d('Wed Nov 2'))).to eq(1)
     end
 
-    it 'excludes the edges' do
-      expect(described_method(d('Tue Nov 1'), d('Thu Nov 3'))).to eq(0)
-      expect(described_method(d('Sat Oct 29'), d('Tue Nov 1'))).to eq(0)
+    it 'adds the edges' do
+      expect(described_method(d('Tue Nov 1'), d('Thu Nov 3'))).to eq(1)
+      expect(described_method(d('Sat Oct 29'), d('Tue Nov 1'))).to eq(1)
     end
   end
 end

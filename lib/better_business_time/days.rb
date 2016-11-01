@@ -10,18 +10,17 @@ module BetterBusinessTime
     end
 
     def self.calendar_days_between(first_date, last_date)
-      return 0 if first_date == last_date
-      (last_date - first_date).to_i - 1
+      (last_date - first_date).to_i + 1
     end
 
     def self.weekend_days_between(first_date, last_date)
-      full_weeks = (calendar_days_between(first_date, last_date) + 1) / 7
+      full_weeks = calendar_days_between(first_date, last_date) / 7
+      shifted_date = first_date + full_weeks * 7
       weekend_days = full_weeks * 2
-      first_wday = first_date.wday
-      last_wday = last_date.wday
-      return weekend_days if first_wday <= last_wday
-      weekend_days += 1 if first_wday < SATURDAY_WDAY
-      weekend_days += 1 if last_wday > SUNDAY_WDAY
+      next_saturday = shifted_date + ((SATURDAY_WDAY - shifted_date.wday) % 7)
+      next_sunday = shifted_date + ((SUNDAY_WDAY - shifted_date.wday) % 7)
+      weekend_days += 1 if next_saturday <= last_date
+      weekend_days += 1 if next_sunday <= last_date
       weekend_days
     end
   end
