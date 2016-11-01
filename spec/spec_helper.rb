@@ -1,6 +1,8 @@
 require 'rspec'
 require 'date'
 require 'time'
+require 'pry'
+
 require_relative '../lib/better_business_time'
 
 def d(string)
