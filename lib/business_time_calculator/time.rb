@@ -1,4 +1,4 @@
-module BetterBusinessTime
+module BusinessTimeCalculator
   class Time
     BEGINNING_OF_DAY = 9 * 60 * 60
     END_OF_DAY = 17 * 60 * 60

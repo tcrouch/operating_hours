@@ -1,6 +1,6 @@
-require 'better_business_time/weekday_holidays'
-require 'better_business_time/time_decorator'
-require 'better_business_time/time'
+require 'business_time_calculator/weekday_holidays'
+require 'business_time_calculator/time_decorator'
+require 'business_time_calculator/time'
 
 module BusinessTimeCalculator
 end

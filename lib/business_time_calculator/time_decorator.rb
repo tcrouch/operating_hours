@@ -1,6 +1,6 @@
 require 'delegate'
 
-module BetterBusinessTime
+module BusinessTimeCalculator
   class TimeDecorator < SimpleDelegator
     def seconds_in_day
       hour * 3600 + min * 60 + sec

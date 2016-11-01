@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BetterBusinessTime::Time do
+describe BusinessTimeCalculator::Time do
   describe '.between' do
     def described_method(*args)
       described_class.between(*args)
@@ -28,7 +28,7 @@ describe BetterBusinessTime::Time do
     end
 
     it 'returns business time between two times when there are vacations between' do
-      BetterBusinessTime::WeekdayHolidays.set([d('Tue Nov 1'), d('Tue Nov 15')])
+      BusinessTimeCalculator::WeekdayHolidays.set([d('Tue Nov 1'), d('Tue Nov 15')])
 
       expect(described_method(t('Mon Oct 31', '17:01'), t('Wed Nov 2', '8:59'))).to eq(0 * 3600)
       expect(described_method(t('Mon Oct 31', '16:00'), t('Wed Nov 2', '8:59'))).to eq(1 * 3600)
@@ -37,7 +37,7 @@ describe BetterBusinessTime::Time do
     end
 
     it 'returns business time when there is a holiday in the first edge' do
-      BetterBusinessTime::WeekdayHolidays.set([d('Mon Oct 31'), d('Tue Nov 15')])
+      BusinessTimeCalculator::WeekdayHolidays.set([d('Mon Oct 31'), d('Tue Nov 15')])
 
       expect(described_method(t('Mon Oct 31', '17:01'), t('Wed Nov 2', '8:59'))).to eq(8 * 3600)
       expect(described_method(t('Mon Oct 31', '16:00'), t('Wed Nov 2', '8:59'))).to eq(8 * 3600)
@@ -46,7 +46,7 @@ describe BetterBusinessTime::Time do
     end
 
     it 'returns business time when there is a holiday in the last edge' do
-      BetterBusinessTime::WeekdayHolidays.set([d('Wed Nov 2'), d('Tue Nov 15')])
+      BusinessTimeCalculator::WeekdayHolidays.set([d('Wed Nov 2'), d('Tue Nov 15')])
 
       expect(described_method(t('Mon Oct 31', '17:01'), t('Wed Nov 2', '8:59'))).to eq(8 * 3600)
       expect(described_method(t('Mon Oct 31', '16:00'), t('Wed Nov 2', '8:59'))).to eq(9 * 3600)
@@ -55,14 +55,14 @@ describe BetterBusinessTime::Time do
     end
 
     it 'returns 0 when the times are on the same day but holidays' do
-      BetterBusinessTime::WeekdayHolidays.set([d('Wed Nov 2'), d('Tue Nov 15')])
+      BusinessTimeCalculator::WeekdayHolidays.set([d('Wed Nov 2'), d('Tue Nov 15')])
 
       expect(described_method(t('Wed Nov 2', '10:00'), t('Wed Nov 2', '18:00'))).to eq(0)
     end
 
     context 'real holidays' do
       before do
-        BetterBusinessTime::WeekdayHolidays.set(
+        BusinessTimeCalculator::WeekdayHolidays.set(
           [
             d('Fri Jan 1'),
             d('Mon Jan 18'),
@@ -194,7 +194,7 @@ describe BetterBusinessTime::Time do
     end
 
     it 'excludes holidays' do
-      BetterBusinessTime::WeekdayHolidays
+      BusinessTimeCalculator::WeekdayHolidays
         .set([d('Sun Oct 30'), d('Tue Nov 1'), d('Wed Nov 9')])
       expect(described_method(d('Mon Oct 31'), d('Mon Oct 31'))).to eq(1)
       expect(described_method(d('Mon Oct 31'), d('Tue Nov 1'))).to eq(1)

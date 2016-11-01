@@ -1,6 +1,6 @@
 require 'set'
 
-module BetterBusinessTime
+module BusinessTimeCalculator
   class WeekdayHolidays
     def self.set(array)
       count = 0

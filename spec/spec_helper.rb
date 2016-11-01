@@ -3,7 +3,7 @@ require 'date'
 require 'time'
 require 'pry'
 
-require_relative '../lib/better_business_time'
+require_relative '../lib/business_time_calculator'
 
 def d(string)
   Date.parse("#{string} 2016")
@@ -15,6 +15,6 @@ end
 
 RSpec.configure do |config|
   config.before do
-    BetterBusinessTime::WeekdayHolidays.set([])
+    BusinessTimeCalculator::WeekdayHolidays.set([])
   end
 end

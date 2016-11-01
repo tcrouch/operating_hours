@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BetterBusinessTime::TimeDecorator do
+describe BusinessTimeCalculator::TimeDecorator do
   describe '#since_beginning_of_day' do
     it 'returns the number of seconds since the beginning of the day' do
       decorated = described_class.new(Time.parse('01:02:03'))
