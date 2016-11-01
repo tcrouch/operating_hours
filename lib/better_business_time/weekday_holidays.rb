@@ -22,12 +22,15 @@ module BetterBusinessTime
     end
 
     def self.between(first_date, second_date)
-      add_last = get(second_date)[:holiday?] ? 1 : 0
-      before(second_date) - before(first_date) + add_last
+      before(second_date) - before(first_date + 1)
     end
 
     def self.before(date)
       get(date)[:holidays_before]
+    end
+
+    def self.holiday?(date)
+      get(date)[:holiday?]
     end
 
     def self.get(date)
