@@ -7,8 +7,8 @@ class BusinessTimeCalculator
     @holidays = HolidayCollection.new(holidays)
   end
 
-  def between(first_time, last_time)
-    return -1 * between(last_time, first_time) if last_time < first_time
+  def time_between(first_time, last_time)
+    return -1 * time_between(last_time, first_time) if last_time < first_time
     schedule.hours_per_day * days_between(first_time.to_date, last_time.to_date) -
       business_time_before(first_time) -
       business_time_after(last_time)
