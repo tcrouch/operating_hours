@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    business_time_calculator (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -8,6 +13,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    rake (10.4.2)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -27,11 +33,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 1.12)
+  business_time_calculator!
   pry
+  rake (~> 10.0)
   rspec
-
-RUBY VERSION
-   ruby 2.2.5p319
 
 BUNDLED WITH
    1.12.5
