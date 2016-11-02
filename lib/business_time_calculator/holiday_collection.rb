@@ -1,6 +1,6 @@
 require 'set'
 
-class BusinessTimeCalculator::WeekdayHolidays
+class BusinessTimeCalculator::HolidayCollection
   def self.set(array)
     count = 0
     @dates = {}

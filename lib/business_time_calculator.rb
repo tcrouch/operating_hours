@@ -1,3 +1,3 @@
 require 'business_time_calculator/business_time_calculator'
-require 'business_time_calculator/weekday_holidays'
+require 'business_time_calculator/holiday_collection'
 require 'business_time_calculator/time_decorator'
