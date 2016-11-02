@@ -21,19 +21,20 @@ class BusinessTimeCalculator::HolidayCollection
   end
 
   def between(first_date, second_date)
-    before(second_date + 1) - before(first_date)
+    holidays_before(second_date + 1) - holidays_before(first_date)
   end
 
-  def before(date)
-    get(date)[:holidays_before]
-  end
-
-  def holiday?(date)
+  def include?(date)
     get(date)[:holiday?]
   end
 
+  private
+
+  def holidays_before(date)
+    get(date)[:holidays_before]
+  end
+
   def get(date)
-    @dates ||= {}
     @dates[date] || { holiday?: false, holidays_before: 0 }
   end
 end

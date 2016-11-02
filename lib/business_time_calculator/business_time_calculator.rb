@@ -60,7 +60,7 @@ class BusinessTimeCalculator
   end
 
   def holiday?(time)
-    holidays.holiday?(time.to_date)
+    holidays.include?(time.to_date)
   end
 
   private

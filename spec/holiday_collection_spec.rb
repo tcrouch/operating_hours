@@ -20,4 +20,19 @@ describe BusinessTimeCalculator::HolidayCollection do
       expect(between(d('Sat Oct 29'), d('Tue Nov 1'))).to eq(1)
     end
   end
+
+  describe 'include?' do
+    def include?(*args)
+      holidays = [d('Sun Oct 30'), d('Tue Nov 1'), d('Tue Nov 8')]
+      described_class.new(holidays).include?(*args)
+    end
+
+    it 'returns true if date is a holiday' do
+      expect(include?(d('Tue Nov 1'))).to eq(true)
+    end
+
+    it 'returns false if date is not a holiday' do
+      expect(include?(d('Wed Nov 2'))).to eq(false)
+    end
+  end
 end
