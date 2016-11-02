@@ -22,7 +22,7 @@ class BusinessTimeCalculator
   def days_between(first_date, last_date)
     calendar_days_between(first_date, last_date) -
       weekend_days_between(first_date, last_date) -
-      WeekdayHolidays.between(first_date, last_date)
+      HolidayCollection.between(first_date, last_date)
   end
 
   def calendar_days_between(first_date, last_date)

@@ -18,6 +18,6 @@ class BusinessTimeCalculator::TimeDecorator < SimpleDelegator
   end
 
   def holiday?
-    BusinessTimeCalculator::WeekdayHolidays.holiday?(self.to_date)
+    BusinessTimeCalculator::HolidayCollection.holiday?(self.to_date)
   end
 end

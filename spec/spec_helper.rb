@@ -15,6 +15,6 @@ end
 
 RSpec.configure do |config|
   config.before do
-    BusinessTimeCalculator::WeekdayHolidays.set([])
+    BusinessTimeCalculator::HolidayCollection.set([])
   end
 end

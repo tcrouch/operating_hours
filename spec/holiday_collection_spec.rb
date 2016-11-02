@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BusinessTimeCalculator::WeekdayHolidays do
+describe BusinessTimeCalculator::HolidayCollection do
   before do
     described_class.set([d('Sun Oct 30'), d('Tue Nov 1'), d('Tue Nov 8')])
   end
