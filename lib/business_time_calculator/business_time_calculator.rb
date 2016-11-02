@@ -12,8 +12,6 @@ class BusinessTimeCalculator
 
   def between(first_time, last_time)
     return -1 * between(last_time, first_time) if last_time < first_time
-    first_time = TimeDecorator.new(first_time)
-    last_time = TimeDecorator.new(last_time)
     hours_per_day * days_between(first_time.to_date, last_time.to_date) -
       business_time_before(first_time) -
       business_time_after(last_time)
@@ -41,18 +39,34 @@ class BusinessTimeCalculator
   end
 
   def business_time_before(time)
-    return 0 if !time.workday?
+    return 0 if !workday?(time)
 
-    time_intersection([beginning_of_day, time.seconds_in_day], [beginning_of_day, end_of_day])
+    seconds_in_day = seconds_in_day(time)
+    time_intersection([beginning_of_day, seconds_in_day], [beginning_of_day, end_of_day])
   end
 
   def business_time_after(time)
-    return 0 if !time.workday?
+    return 0 if !workday?(time)
 
-    time_intersection([time.seconds_in_day, end_of_day], [beginning_of_day, end_of_day])
+    seconds_in_day = seconds_in_day(time)
+    time_intersection([seconds_in_day, end_of_day], [beginning_of_day, end_of_day])
   end
 
   def time_intersection(segment1, segment2)
     [[segment1[1], segment2[1]].min - [segment1[0], segment2[0]].max, 0].max
+  end
+
+  def workday?(time)
+    !time.saturday? && !time.sunday? && !holiday?(time)
+  end
+
+  def holiday?(time)
+    BusinessTimeCalculator::HolidayCollection.holiday?(time.to_date)
+  end
+
+  private
+
+  def seconds_in_day(time)
+    time.hour * 3600 + time.min * 60 + time.sec
   end
 end
