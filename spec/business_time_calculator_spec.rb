@@ -373,19 +373,4 @@ describe BusinessTimeCalculator do
       end
     end
   end
-
-  describe '.time_intersection' do
-    def described_method(*args)
-      described_class.new.time_intersection(*args)
-    end
-
-    it 'returns the time intersection between two segments' do
-      expect(described_method([9, 17], [10, 16])).to eq(6)
-      expect(described_method([9, 17], [10, 18])).to eq(7)
-      expect(described_method([9, 17], [10, 20])).to eq(7)
-      expect(described_method([9, 17], [8, 20])).to eq(8)
-      expect(described_method([9, 17], [2, 6])).to eq(0)
-      expect(described_method([2, 6], [9, 17])).to eq(0)
-    end
-  end
 end

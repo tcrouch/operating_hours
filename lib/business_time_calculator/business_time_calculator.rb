@@ -3,15 +3,13 @@ class BusinessTimeCalculator
   SUNDAY_WDAY = 0
 
   def initialize(schedule: {}, holidays: [])
-    @beginning_of_day = schedule[:beginning_of_day] || 9 * 60 * 60
-    @end_of_day = schedule[:end_of_day] || 17 * 60 * 60
-    @hours_per_day = @end_of_day - @beginning_of_day
+    @schedule = Schedule.new(schedule)
     @holidays = HolidayCollection.new(holidays)
   end
 
   def between(first_time, last_time)
     return -1 * between(last_time, first_time) if last_time < first_time
-    hours_per_day * days_between(first_time.to_date, last_time.to_date) -
+    schedule.hours_per_day * days_between(first_time.to_date, last_time.to_date) -
       business_time_before(first_time) -
       business_time_after(last_time)
   end
@@ -39,20 +37,12 @@ class BusinessTimeCalculator
 
   def business_time_before(time)
     return 0 if !workday?(time)
-
-    time_in_seconds = seconds_in_day(time)
-    time_intersection([beginning_of_day, time_in_seconds], [beginning_of_day, end_of_day])
+    schedule.time_before(time)
   end
 
   def business_time_after(time)
     return 0 if !workday?(time)
-
-    time_in_seconds = seconds_in_day(time)
-    time_intersection([time_in_seconds, end_of_day], [beginning_of_day, end_of_day])
-  end
-
-  def time_intersection(segment1, segment2)
-    [[segment1[1], segment2[1]].min - [segment1[0], segment2[0]].max, 0].max
+    schedule.time_after(time)
   end
 
   def workday?(time)
@@ -65,9 +55,5 @@ class BusinessTimeCalculator
 
   private
 
-  attr_reader :beginning_of_day, :end_of_day, :hours_per_day, :holidays
-
-  def seconds_in_day(time)
-    time.hour * 3600 + time.min * 60 + time.sec
-  end
+  attr_reader :holidays, :schedule
 end
