@@ -1,7 +1,7 @@
 require 'set'
 
 class BusinessTimeCalculator::HolidayCollection
-  def self.set(array)
+  def initialize(array)
     count = 0
     @dates = {}
 
@@ -20,19 +20,19 @@ class BusinessTimeCalculator::HolidayCollection
     end
   end
 
-  def self.between(first_date, second_date)
+  def between(first_date, second_date)
     before(second_date + 1) - before(first_date)
   end
 
-  def self.before(date)
+  def before(date)
     get(date)[:holidays_before]
   end
 
-  def self.holiday?(date)
+  def holiday?(date)
     get(date)[:holiday?]
   end
 
-  def self.get(date)
+  def get(date)
     @dates ||= {}
     @dates[date] || { holiday?: false, holidays_before: 0 }
   end

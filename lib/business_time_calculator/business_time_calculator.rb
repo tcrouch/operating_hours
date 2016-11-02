@@ -2,10 +2,11 @@ class BusinessTimeCalculator
   SATURDAY_WDAY = 6
   SUNDAY_WDAY = 0
 
-  def initialize(schedule: {})
+  def initialize(schedule: {}, holidays: [])
     @beginning_of_day = schedule[:beginning_of_day] || 9 * 60 * 60
     @end_of_day = schedule[:end_of_day] || 17 * 60 * 60
     @hours_per_day = @end_of_day - @beginning_of_day
+    @holidays = HolidayCollection.new(holidays)
   end
 
   def between(first_time, last_time)
@@ -18,7 +19,7 @@ class BusinessTimeCalculator
   def days_between(first_date, last_date)
     calendar_days_between(first_date, last_date) -
       weekend_days_between(first_date, last_date) -
-      HolidayCollection.between(first_date, last_date)
+      holidays.between(first_date, last_date)
   end
 
   def calendar_days_between(first_date, last_date)
@@ -39,15 +40,15 @@ class BusinessTimeCalculator
   def business_time_before(time)
     return 0 if !workday?(time)
 
-    seconds_in_day = seconds_in_day(time)
-    time_intersection([beginning_of_day, seconds_in_day], [beginning_of_day, end_of_day])
+    time_in_seconds = seconds_in_day(time)
+    time_intersection([beginning_of_day, time_in_seconds], [beginning_of_day, end_of_day])
   end
 
   def business_time_after(time)
     return 0 if !workday?(time)
 
-    seconds_in_day = seconds_in_day(time)
-    time_intersection([seconds_in_day, end_of_day], [beginning_of_day, end_of_day])
+    time_in_seconds = seconds_in_day(time)
+    time_intersection([time_in_seconds, end_of_day], [beginning_of_day, end_of_day])
   end
 
   def time_intersection(segment1, segment2)
@@ -59,12 +60,12 @@ class BusinessTimeCalculator
   end
 
   def holiday?(time)
-    BusinessTimeCalculator::HolidayCollection.holiday?(time.to_date)
+    holidays.holiday?(time.to_date)
   end
 
   private
 
-  attr_reader :beginning_of_day, :end_of_day, :hours_per_day
+  attr_reader :beginning_of_day, :end_of_day, :hours_per_day, :holidays
 
   def seconds_in_day(time)
     time.hour * 3600 + time.min * 60 + time.sec
