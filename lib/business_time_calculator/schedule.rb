@@ -1,9 +1,13 @@
 class BusinessTimeCalculator::Schedule
   attr_reader :hours_per_day
 
-  def initialize(schedule = {})
-    @beginning_of_day = schedule[:beginning_of_day] || 9 * 60 * 60
-    @end_of_day = schedule[:end_of_day] || 17 * 60 * 60
+  def initialize(schedule)
+    schedule.each do |days, times|
+      times.each do |from, to|
+        @beginning_of_day = from
+        @end_of_day = to
+      end
+    end
     @hours_per_day = @end_of_day - @beginning_of_day
   end
 

@@ -1,9 +1,18 @@
 require 'spec_helper'
 
 describe BusinessTimeCalculator do
+  let(:schedule) do
+    { [:mon, :tue, :wed, :thu, :fri] => [[9 * 60 * 60, 17 * 60 * 60]] }
+  end
+  let(:holidays) { nil }
+
+  let(:subject) do
+    described_class.new(schedule: schedule, holidays: holidays)
+  end
+
   describe '.between' do
     def described_method(*args)
-      described_class.new.between(*args)
+      subject.between(*args)
     end
 
     it 'returns business time between two times two days apart' do
@@ -28,9 +37,12 @@ describe BusinessTimeCalculator do
     end
 
     context 'with holidays' do
+      let(:holidays) do
+        [d('Tue Nov 1'), d('Fri Nov 4'), d('Tue Nov 8')]
+      end
+
       def between(*args)
-        holidays = [d('Tue Nov 1'), d('Fri Nov 4'), d('Tue Nov 8')]
-        described_class.new(holidays: holidays).between(*args)
+        subject.between(*args)
       end
 
       it 'returns business time between two times when there are vacations between' do
@@ -60,7 +72,7 @@ describe BusinessTimeCalculator do
     end
 
     context 'real holidays' do
-      def between(*args)
+      let(:holidays) do
         holidays = [
           d('Fri Jan 1'),
           d('Mon Jan 18'),
@@ -75,7 +87,10 @@ describe BusinessTimeCalculator do
           Date.new(2017, 1, 1),
           Date.new(2017, 1, 30)
         ]
-        described_class.new(holidays: holidays).between(*args)
+      end
+
+      def between(*args)
+        subject.between(*args)
       end
 
       it 'calculates business time' do
@@ -111,7 +126,7 @@ describe BusinessTimeCalculator do
 
   describe '.days_between' do
     def described_method(*args)
-      described_class.new.days_between(*args)
+      subject.days_between(*args)
     end
 
     it 'returns business days between two dates starting Monday' do
@@ -192,9 +207,12 @@ describe BusinessTimeCalculator do
     end
 
     context 'with holidays' do
+      let(:holidays) do
+        [d('Sun Oct 30'), d('Tue Nov 1'), d('Wed Nov 9')]
+      end
+
       def days_between(*args)
-        holidays = [d('Sun Oct 30'), d('Tue Nov 1'), d('Wed Nov 9')]
-        described_class.new(holidays: holidays).days_between(*args)
+        subject.days_between(*args)
       end
 
       it 'excludes holidays' do
@@ -212,7 +230,7 @@ describe BusinessTimeCalculator do
 
   describe '.weekend_days_between' do
     def described_method(*args)
-      described_class.new.weekend_days_between(*args)
+      subject.weekend_days_between(*args)
     end
 
     describe 'when distance <= 1 week' do

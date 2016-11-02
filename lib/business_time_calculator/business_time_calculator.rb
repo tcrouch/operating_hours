@@ -2,7 +2,7 @@ class BusinessTimeCalculator
   SATURDAY_WDAY = 6
   SUNDAY_WDAY = 0
 
-  def initialize(schedule: {}, holidays: [])
+  def initialize(schedule:, holidays: [])
     @schedule = Schedule.new(schedule)
     @holidays = HolidayCollection.new(holidays)
   end

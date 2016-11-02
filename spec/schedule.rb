@@ -3,7 +3,10 @@ require 'spec_helper'
 describe BusinessTimeCalculator::Schedule do
   describe '.time_before' do
     def time_before(*args)
-      described_class.new.time_before(*args)
+      options = {
+        [:mon, :tue, :wed, :thu, :fri] => [[9 * 60 * 60, 17 * 60 * 60]]
+      }
+      described_class.new(options).time_before(*args)
     end
 
     it 'returns the working time in seconds before given time' do
@@ -16,7 +19,10 @@ describe BusinessTimeCalculator::Schedule do
 
   describe '.time_after' do
     def time_after(*args)
-      described_class.new.time_after(*args)
+      options = {
+        [:mon, :tue, :wed, :thu, :fri] => [[9 * 60 * 60, 17 * 60 * 60]]
+      }
+      described_class.new(options).time_after(*args)
     end
 
     it 'returns the working time in after before given time' do
