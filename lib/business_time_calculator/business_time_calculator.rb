@@ -2,11 +2,9 @@ class BusinessTimeCalculator
   SATURDAY_WDAY = 6
   SUNDAY_WDAY = 0
 
-  attr_reader :beginning_of_day, :end_of_day, :hours_per_day
-
-  def initialize(settings = {})
-    @beginning_of_day = settings[:beginning_of_day] || 9 * 60 * 60
-    @end_of_day = settings[:end_of_day] || 17 * 60 * 60
+  def initialize(schedule: {})
+    @beginning_of_day = schedule[:beginning_of_day] || 9 * 60 * 60
+    @end_of_day = schedule[:end_of_day] || 17 * 60 * 60
     @hours_per_day = @end_of_day - @beginning_of_day
   end
 
@@ -65,6 +63,8 @@ class BusinessTimeCalculator
   end
 
   private
+
+  attr_reader :beginning_of_day, :end_of_day, :hours_per_day
 
   def seconds_in_day(time)
     time.hour * 3600 + time.min * 60 + time.sec
