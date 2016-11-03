@@ -1,7 +1,4 @@
 class BusinessTimeCalculator
-  SATURDAY_WDAY = 6
-  SUNDAY_WDAY = 0
-
   def initialize(schedule:, holidays: [])
     @schedule = Schedule.new(schedule)
     @holidays = HolidayCollection.new(holidays)
@@ -16,17 +13,13 @@ class BusinessTimeCalculator
   end
 
   def business_time_before(time)
-    return 0 if !workday?(time)
+    return 0 if holiday?(time)
     schedule.time_before(time)
   end
 
   def business_time_after(time)
-    return 0 if !workday?(time)
+    return 0 if holiday?(time)
     schedule.time_after(time)
-  end
-
-  def workday?(time)
-    !time.saturday? && !time.sunday? && !holiday?(time)
   end
 
   def holiday?(time)
