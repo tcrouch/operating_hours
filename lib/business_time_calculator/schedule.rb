@@ -1,6 +1,4 @@
 class BusinessTimeCalculator::Schedule
-  attr_reader :hours_per_day, :seconds_per_week
-
   WDAYS = {
     sun: 0,
     mon: 1,
@@ -11,11 +9,12 @@ class BusinessTimeCalculator::Schedule
     sat: 6
   }
 
+  attr_reader :seconds_per_week
+
   def initialize(times)
     @times = unpack_times(times)
     @seconds_per_week = @times.values.map(&:seconds).inject(&:+)
     @seconds_in_wday_ranges = calculate_seconds_in_wday_ranges
-    @hours_per_day = 8 * 3600
   end
 
   def seconds_per_day(wday)
@@ -51,8 +50,6 @@ class BusinessTimeCalculator::Schedule
   end
 
   private
-
-  attr_reader :beginning_of_day, :end_of_day
 
   def unpack_times(times)
     times.each_with_object({}) do |(days, day_times), hash|

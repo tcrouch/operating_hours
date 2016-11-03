@@ -4,7 +4,7 @@ describe BusinessTimeCalculator do
   let(:schedule) do
     { [:mon, :tue, :wed, :thu, :fri] => [[9 * 60 * 60, 17 * 60 * 60]] }
   end
-  let(:holidays) { nil }
+  let(:holidays) { [] }
 
   let(:subject) do
     described_class.new(schedule: schedule, holidays: holidays)

@@ -1,13 +1,13 @@
 class BusinessTimeCalculator
   def initialize(schedule:, holidays: [])
     @schedule = Schedule.new(schedule)
-    @holidays = HolidayCollection.new(holidays)
+    @holidays = HolidayCollection.new(collection: holidays, schedule: @schedule)
   end
 
   def time_between(first_time, last_time)
     return -1 * time_between(last_time, first_time) if last_time < first_time
     schedule.seconds_in_date_range(first_time.to_date, last_time.to_date) -
-      schedule.hours_per_day * holidays.between(first_time.to_date, last_time.to_date) -
+      holidays.seconds_in_date_range(first_time.to_date, last_time.to_date) -
       business_time_before(first_time) -
       business_time_after(last_time)
   end
