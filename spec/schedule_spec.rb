@@ -14,7 +14,7 @@ describe BusinessTimeCalculator::Schedule do
     end
   end
 
-  describe '#seconds_per_day' do
+  describe '#seconds_per_wday' do
     it 'returns the seconds in a given day' do
       options = {
         [:mon] => [[9 * 3600, 17 * 3600]],
@@ -24,13 +24,13 @@ describe BusinessTimeCalculator::Schedule do
       }
       schedule = described_class.new(options)
 
-      expect(schedule.seconds_per_day(0)).to eq(0)
-      expect(schedule.seconds_per_day(1)).to eq(8 * 3600)
-      expect(schedule.seconds_per_day(2)).to eq(7 * 3600)
-      expect(schedule.seconds_per_day(3)).to eq(7 * 3600)
-      expect(schedule.seconds_per_day(4)).to eq(9 * 3600)
-      expect(schedule.seconds_per_day(5)).to eq(6 * 3600)
-      expect(schedule.seconds_per_day(6)).to eq(0 * 3600)
+      expect(schedule.seconds_per_wday(0)).to eq(0)
+      expect(schedule.seconds_per_wday(1)).to eq(8 * 3600)
+      expect(schedule.seconds_per_wday(2)).to eq(7 * 3600)
+      expect(schedule.seconds_per_wday(3)).to eq(7 * 3600)
+      expect(schedule.seconds_per_wday(4)).to eq(9 * 3600)
+      expect(schedule.seconds_per_wday(5)).to eq(6 * 3600)
+      expect(schedule.seconds_per_wday(6)).to eq(0 * 3600)
     end
   end
 

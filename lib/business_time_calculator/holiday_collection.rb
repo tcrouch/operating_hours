@@ -46,7 +46,7 @@ class BusinessTimeCalculator::HolidayCollection
 
     (first_holiday..last_holiday).each_with_object({}) do |date, hash|
       holiday = sorted_holidays.include?(date)
-      working_seconds = schedule.seconds_per_day(date.wday)
+      working_seconds = schedule.seconds_per_wday(date.wday)
       hash[date] = {
         holiday?: holiday,
         holidays_before: holidays_before,

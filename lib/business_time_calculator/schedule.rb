@@ -17,7 +17,7 @@ class BusinessTimeCalculator::Schedule
     @seconds_in_wday_ranges = calculate_seconds_in_wday_ranges
   end
 
-  def seconds_per_day(wday)
+  def seconds_per_wday(wday)
     day = @times[wday]
     return 0 unless day
     day.seconds
@@ -64,7 +64,7 @@ class BusinessTimeCalculator::Schedule
       total_seconds = 0
       (0..5).each do |offset|
         second_wday = (first_wday + offset) % 7
-        total_seconds += seconds_per_day(second_wday)
+        total_seconds += seconds_per_wday(second_wday)
         hash[[first_wday, second_wday]] = total_seconds
       end
     end
