@@ -31,7 +31,7 @@ class BusinessTimeCalculator::Schedule
     seconds + @seconds_in_wday_ranges[[first_date.wday, second_date.wday]]
   end
 
-  def time_before(time)
+  def seconds_since_beginning_of_day(time)
     day = @times[time.wday]
     return 0 unless day
     time_in_seconds = seconds_in_day(time)

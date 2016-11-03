@@ -8,13 +8,13 @@ class BusinessTimeCalculator
     return -1 * time_between(last_time, first_time) if last_time < first_time
     schedule.seconds_in_date_range(first_time.to_date, last_time.to_date) -
       holidays.seconds_in_date_range(first_time.to_date, last_time.to_date) -
-      business_time_before(first_time) -
+      seconds_since_beginning_of_workday(first_time) -
       business_time_after(last_time)
   end
 
-  def business_time_before(time)
+  def seconds_since_beginning_of_workday(time)
     return 0 if holiday?(time)
-    schedule.time_before(time)
+    schedule.seconds_since_beginning_of_day(time)
   end
 
   def business_time_after(time)
