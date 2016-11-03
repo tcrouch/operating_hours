@@ -1,29 +1,59 @@
 class BusinessTimeCalculator::Schedule
-  attr_reader :hours_per_day
+  attr_reader :hours_per_day, :seconds_per_week
 
-  def initialize(schedule)
-    schedule.each do |days, times|
-      times.each do |from, to|
-        @beginning_of_day = from
-        @end_of_day = to
-      end
-    end
-    @hours_per_day = @end_of_day - @beginning_of_day
+  WDAYS = {
+    sun: 0,
+    mon: 1,
+    tue: 2,
+    wed: 3,
+    thu: 4,
+    fri: 5,
+    sat: 6
+  }
+
+  def initialize(times)
+    @times = unpack_times(times)
+    @seconds_per_week = @times.values.map(&:seconds).inject(&:+)
+    @hours_per_day = 8 * 3600
+  end
+
+  def seconds_per_day(wday)
+    day = @times[wday]
+    return 0 unless day
+    day.seconds
   end
 
   def time_before(time)
+    day = @times[time.wday]
+    return 0 unless day
     time_in_seconds = seconds_in_day(time)
-    time_intersection([beginning_of_day, time_in_seconds], [beginning_of_day, end_of_day])
+    day.times.map do |start, _end|
+      time_intersection([start, time_in_seconds], [start, _end])
+    end.inject(&:+)
   end
 
   def time_after(time)
+    day = @times[time.wday]
+    return 0 unless day
     time_in_seconds = seconds_in_day(time)
-    time_intersection([time_in_seconds, end_of_day], [beginning_of_day, end_of_day])
+    day.times.map do |start, _end|
+      time_intersection([time_in_seconds, _end], [start, _end])
+    end.inject(&:+)
   end
 
   private
 
   attr_reader :beginning_of_day, :end_of_day
+
+  def unpack_times(times)
+    hash = {}
+    times.each do |days, day_times|
+      days.each do |day|
+        hash[WDAYS[day]] = BusinessTimeCalculator::WorkDay.new(day_times)
+      end
+    end
+    hash
+  end
 
   def time_intersection(segment1, segment2)
     [[segment1[1], segment2[1]].min - [segment1[0], segment2[0]].max, 0].max
