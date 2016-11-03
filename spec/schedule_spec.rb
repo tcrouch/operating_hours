@@ -247,8 +247,8 @@ describe BusinessTimeCalculator::Schedule do
     end
   end
 
-  describe '#time_after' do
-    def time_after(*args)
+  describe '#seconds_until_end_of_day' do
+    def seconds_until_end_of_day(*args)
       options = {
         [:mon] => [[9 * 3600, 17 * 3600]],
         [:tue, :thu] => [[9 * 3600, 13 * 3600], [14 * 3600, 20 * 3600]],
@@ -257,43 +257,43 @@ describe BusinessTimeCalculator::Schedule do
         [:sat] => [[10 * 3600, 14 * 3600]]
       }
 
-      described_class.new(options).time_after(*args)
+      described_class.new(options).seconds_until_end_of_day(*args)
     end
 
     it 'returns the working time in after before given time' do
-      expect(time_after(t('Mon Oct 31', '8:59'))).to eq(8 * 3600)
-      expect(time_after(t('Mon Oct 31', '10:00'))).to eq(7 * 3600)
-      expect(time_after(t('Mon Oct 31', '16:00'))).to eq(1 * 3600)
-      expect(time_after(t('Mon Oct 31', '19:00'))).to eq(0)
+      expect(seconds_until_end_of_day(t('Mon Oct 31', '8:59'))).to eq(8 * 3600)
+      expect(seconds_until_end_of_day(t('Mon Oct 31', '10:00'))).to eq(7 * 3600)
+      expect(seconds_until_end_of_day(t('Mon Oct 31', '16:00'))).to eq(1 * 3600)
+      expect(seconds_until_end_of_day(t('Mon Oct 31', '19:00'))).to eq(0)
 
-      expect(time_after(t('Tue Nov 1', '8:59'))).to eq(10 * 3600)
-      expect(time_after(t('Tue Nov 1', '10:00'))).to eq(9 * 3600)
-      expect(time_after(t('Tue Nov 1', '16:00'))).to eq(4 * 3600)
-      expect(time_after(t('Tue Nov 1', '19:00'))).to eq(1 * 3600)
-      expect(time_after(t('Tue Nov 1', '20:00'))).to eq(0 * 3600)
+      expect(seconds_until_end_of_day(t('Tue Nov 1', '8:59'))).to eq(10 * 3600)
+      expect(seconds_until_end_of_day(t('Tue Nov 1', '10:00'))).to eq(9 * 3600)
+      expect(seconds_until_end_of_day(t('Tue Nov 1', '16:00'))).to eq(4 * 3600)
+      expect(seconds_until_end_of_day(t('Tue Nov 1', '19:00'))).to eq(1 * 3600)
+      expect(seconds_until_end_of_day(t('Tue Nov 1', '20:00'))).to eq(0 * 3600)
 
-      expect(time_after(t('Wed Nov 2', '8:59'))).to eq(9 * 3600)
-      expect(time_after(t('Wed Nov 2', '10:00'))).to eq(8 * 3600)
-      expect(time_after(t('Wed Nov 2', '16:00'))).to eq(2 * 3600)
-      expect(time_after(t('Wed Nov 2', '19:00'))).to eq(0 * 3600)
+      expect(seconds_until_end_of_day(t('Wed Nov 2', '8:59'))).to eq(9 * 3600)
+      expect(seconds_until_end_of_day(t('Wed Nov 2', '10:00'))).to eq(8 * 3600)
+      expect(seconds_until_end_of_day(t('Wed Nov 2', '16:00'))).to eq(2 * 3600)
+      expect(seconds_until_end_of_day(t('Wed Nov 2', '19:00'))).to eq(0 * 3600)
 
-      expect(time_after(t('Thu Nov 3', '8:59'))).to eq(10 * 3600)
-      expect(time_after(t('Thu Nov 3', '10:00'))).to eq(9 * 3600)
-      expect(time_after(t('Thu Nov 3', '16:00'))).to eq(4 * 3600)
-      expect(time_after(t('Thu Nov 3', '19:00'))).to eq(1 * 3600)
-      expect(time_after(t('Thu Nov 3', '20:00'))).to eq(0 * 3600)
+      expect(seconds_until_end_of_day(t('Thu Nov 3', '8:59'))).to eq(10 * 3600)
+      expect(seconds_until_end_of_day(t('Thu Nov 3', '10:00'))).to eq(9 * 3600)
+      expect(seconds_until_end_of_day(t('Thu Nov 3', '16:00'))).to eq(4 * 3600)
+      expect(seconds_until_end_of_day(t('Thu Nov 3', '19:00'))).to eq(1 * 3600)
+      expect(seconds_until_end_of_day(t('Thu Nov 3', '20:00'))).to eq(0 * 3600)
 
-      expect(time_after(t('Fri Nov 4', '7:59'))).to eq(8 * 3600)
-      expect(time_after(t('Fri Nov 4', '10:00'))).to eq(6 * 3600)
-      expect(time_after(t('Fri Nov 4', '16:00'))).to eq(0 * 3600)
-      expect(time_after(t('Fri Nov 4', '19:00'))).to eq(0 * 3600)
+      expect(seconds_until_end_of_day(t('Fri Nov 4', '7:59'))).to eq(8 * 3600)
+      expect(seconds_until_end_of_day(t('Fri Nov 4', '10:00'))).to eq(6 * 3600)
+      expect(seconds_until_end_of_day(t('Fri Nov 4', '16:00'))).to eq(0 * 3600)
+      expect(seconds_until_end_of_day(t('Fri Nov 4', '19:00'))).to eq(0 * 3600)
 
-      expect(time_after(t('Sat Nov 5', '10:00'))).to eq(4 * 3600)
-      expect(time_after(t('Sat Nov 5', '16:00'))).to eq(0)
-      expect(time_after(t('Sat Nov 5', '19:00'))).to eq(0)
+      expect(seconds_until_end_of_day(t('Sat Nov 5', '10:00'))).to eq(4 * 3600)
+      expect(seconds_until_end_of_day(t('Sat Nov 5', '16:00'))).to eq(0)
+      expect(seconds_until_end_of_day(t('Sat Nov 5', '19:00'))).to eq(0)
 
-      expect(time_after(t('Sun Nov 6', '12:00'))).to eq(0)
-      expect(time_after(t('Sun Nov 6', '19:00'))).to eq(0)
+      expect(seconds_until_end_of_day(t('Sun Nov 6', '12:00'))).to eq(0)
+      expect(seconds_until_end_of_day(t('Sun Nov 6', '19:00'))).to eq(0)
     end
   end
 end

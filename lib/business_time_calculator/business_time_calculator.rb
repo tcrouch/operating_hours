@@ -9,7 +9,7 @@ class BusinessTimeCalculator
     schedule.seconds_in_date_range(first_time.to_date, last_time.to_date) -
       holidays.seconds_in_date_range(first_time.to_date, last_time.to_date) -
       seconds_since_beginning_of_workday(first_time) -
-      business_time_after(last_time)
+      seconds_until_end_of_workday(last_time)
   end
 
   def seconds_since_beginning_of_workday(time)
@@ -17,9 +17,9 @@ class BusinessTimeCalculator
     schedule.seconds_since_beginning_of_day(time)
   end
 
-  def business_time_after(time)
+  def seconds_until_end_of_workday(time)
     return 0 if holiday?(time)
-    schedule.time_after(time)
+    schedule.seconds_until_end_of_day(time)
   end
 
   def holiday?(time)
