@@ -9,30 +9,10 @@ class BusinessTimeCalculator
 
   def time_between(first_time, last_time)
     return -1 * time_between(last_time, first_time) if last_time < first_time
-    schedule.hours_per_day * days_in_range(first_time.to_date, last_time.to_date) -
+    schedule.seconds_in_date_range(first_time.to_date, last_time.to_date) -
+      schedule.hours_per_day * holidays.between(first_time.to_date, last_time.to_date) -
       business_time_before(first_time) -
       business_time_after(last_time)
-  end
-
-  def days_in_range(first_date, last_date)
-    calendar_days_in_range(first_date, last_date) -
-      weekend_days_in_range(first_date, last_date) -
-      holidays.between(first_date, last_date)
-  end
-
-  def calendar_days_in_range(first_date, last_date)
-    (last_date - first_date).to_i + 1
-  end
-
-  def weekend_days_in_range(first_date, last_date)
-    full_weeks = calendar_days_in_range(first_date, last_date) / 7
-    shifted_date = first_date + full_weeks * 7
-    weekend_days = full_weeks * 2
-    next_saturday = shifted_date + ((SATURDAY_WDAY - shifted_date.wday) % 7)
-    next_sunday = shifted_date + ((SUNDAY_WDAY - shifted_date.wday) % 7)
-    weekend_days += 1 if next_saturday <= last_date
-    weekend_days += 1 if next_sunday <= last_date
-    weekend_days
   end
 
   def business_time_before(time)

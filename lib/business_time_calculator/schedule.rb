@@ -25,7 +25,11 @@ class BusinessTimeCalculator::Schedule
   end
 
   def seconds_in_date_range(first_date, second_date)
-    @seconds_in_wday_ranges[[first_date.wday, second_date.wday]]
+    number_of_days = (second_date - first_date + 1).to_i
+    full_weeks = number_of_days / 7
+    seconds = @seconds_per_week * full_weeks
+    return seconds if number_of_days % 7 == 0
+    seconds + @seconds_in_wday_ranges[[first_date.wday, second_date.wday]]
   end
 
   def time_before(time)

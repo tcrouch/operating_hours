@@ -111,6 +111,90 @@ describe BusinessTimeCalculator::Schedule do
         expect(seconds_in_date_range(d('Sun Oct 30'), d('Fri Nov 4'))).to eq(45 * 3600)
       end
     end
+
+    describe 'dates more than a week apart' do
+      def seconds_in_date_range(*args)
+        options = {
+          [:mon] => [[9 * 3600, 17 * 3600]],
+          [:tue, :thu] => [[9 * 3600, 13 * 3600], [14 * 3600, 20 * 3600]],
+          [:wed] => [[9 * 3600, 18 * 3600]],
+          [:fri] => [[8 * 3600, 16 * 3600]],
+          [:sat] => [[10 * 3600, 15 * 3600]]
+        }
+
+        described_class.new(options).seconds_in_date_range(*args)
+      end
+
+      it 'returns seconds in ranges starting on a Monday' do
+        expect(seconds_in_date_range(d('Mon Oct 3'), d('Mon Oct 24'))).to eq(158 * 3600)
+        expect(seconds_in_date_range(d('Mon Oct 3'), d('Tue Oct 25'))).to eq(168 * 3600)
+        expect(seconds_in_date_range(d('Mon Oct 3'), d('Wed Oct 26'))).to eq(177 * 3600)
+        expect(seconds_in_date_range(d('Mon Oct 3'), d('Thu Oct 27'))).to eq(187 * 3600)
+        expect(seconds_in_date_range(d('Mon Oct 3'), d('Fri Oct 28'))).to eq(195 * 3600)
+        expect(seconds_in_date_range(d('Mon Oct 3'), d('Sat Oct 29'))).to eq(200 * 3600)
+        expect(seconds_in_date_range(d('Mon Oct 3'), d('Sun Oct 30'))).to eq(200 * 3600)
+      end
+
+      it 'returns seconds in ranges starting on a Tuesday' do
+        expect(seconds_in_date_range(d('Tue Oct 4'), d('Tue Oct 25'))).to eq(160 * 3600)
+        expect(seconds_in_date_range(d('Tue Oct 4'), d('Wed Oct 26'))).to eq(169 * 3600)
+        expect(seconds_in_date_range(d('Tue Oct 4'), d('Thu Oct 27'))).to eq(179 * 3600)
+        expect(seconds_in_date_range(d('Tue Oct 4'), d('Fri Oct 28'))).to eq(187 * 3600)
+        expect(seconds_in_date_range(d('Tue Oct 4'), d('Sat Oct 29'))).to eq(192 * 3600)
+        expect(seconds_in_date_range(d('Tue Oct 4'), d('Sun Oct 30'))).to eq(192 * 3600)
+        expect(seconds_in_date_range(d('Tue Oct 4'), d('Mon Oct 31'))).to eq(200 * 3600)
+      end
+
+      it 'returns seconds in ranges starting on a Wednesday' do
+        expect(seconds_in_date_range(d('Wed Oct 5'), d('Wed Oct 26'))).to eq(159 * 3600)
+        expect(seconds_in_date_range(d('Wed Oct 5'), d('Thu Oct 27'))).to eq(169 * 3600)
+        expect(seconds_in_date_range(d('Wed Oct 5'), d('Fri Oct 28'))).to eq(177 * 3600)
+        expect(seconds_in_date_range(d('Wed Oct 5'), d('Sat Oct 29'))).to eq(182 * 3600)
+        expect(seconds_in_date_range(d('Wed Oct 5'), d('Sun Oct 30'))).to eq(182 * 3600)
+        expect(seconds_in_date_range(d('Wed Oct 5'), d('Mon Oct 31'))).to eq(190 * 3600)
+        expect(seconds_in_date_range(d('Wed Oct 5'), d('Tue Nov 1'))).to eq(200 * 3600)
+      end
+
+      it 'returns seconds in ranges starting on a Thursday' do
+        expect(seconds_in_date_range(d('Thu Oct 6'), d('Thu Oct 27'))).to eq(160 * 3600)
+        expect(seconds_in_date_range(d('Thu Oct 6'), d('Fri Oct 28'))).to eq(168 * 3600)
+        expect(seconds_in_date_range(d('Thu Oct 6'), d('Sat Oct 29'))).to eq(173 * 3600)
+        expect(seconds_in_date_range(d('Thu Oct 6'), d('Sun Oct 30'))).to eq(173 * 3600)
+        expect(seconds_in_date_range(d('Thu Oct 6'), d('Mon Oct 31'))).to eq(181 * 3600)
+        expect(seconds_in_date_range(d('Thu Oct 6'), d('Tue Nov 1'))).to eq(191 * 3600)
+        expect(seconds_in_date_range(d('Thu Oct 6'), d('Wed Nov 2'))).to eq(200 * 3600)
+      end
+
+      it 'returns seconds in ranges starting on a Friday' do
+        expect(seconds_in_date_range(d('Fri Oct 7'), d('Fri Oct 28'))).to eq(158 * 3600)
+        expect(seconds_in_date_range(d('Fri Oct 7'), d('Sat Oct 29'))).to eq(163 * 3600)
+        expect(seconds_in_date_range(d('Fri Oct 7'), d('Sun Oct 30'))).to eq(163 * 3600)
+        expect(seconds_in_date_range(d('Fri Oct 7'), d('Mon Oct 31'))).to eq(171 * 3600)
+        expect(seconds_in_date_range(d('Fri Oct 7'), d('Tue Nov 1'))).to eq(181 * 3600)
+        expect(seconds_in_date_range(d('Fri Oct 7'), d('Wed Nov 2'))).to eq(190 * 3600)
+        expect(seconds_in_date_range(d('Fri Oct 7'), d('Thu Nov 3'))).to eq(200 * 3600)
+      end
+
+      it 'returns seconds in ranges starting on a Saturday' do
+        expect(seconds_in_date_range(d('Sat Oct 8'), d('Sat Oct 29'))).to eq(155 * 3600)
+        expect(seconds_in_date_range(d('Sat Oct 8'), d('Sun Oct 30'))).to eq(155 * 3600)
+        expect(seconds_in_date_range(d('Sat Oct 8'), d('Mon Oct 31'))).to eq(163 * 3600)
+        expect(seconds_in_date_range(d('Sat Oct 8'), d('Tue Nov 1'))).to eq(173 * 3600)
+        expect(seconds_in_date_range(d('Sat Oct 8'), d('Wed Nov 2'))).to eq(182 * 3600)
+        expect(seconds_in_date_range(d('Sat Oct 8'), d('Thu Nov 3'))).to eq(192 * 3600)
+        expect(seconds_in_date_range(d('Sat Oct 8'), d('Fri Nov 4'))).to eq(200 * 3600)
+      end
+
+      it 'returns seconds in ranges starting on a Sunday' do
+        expect(seconds_in_date_range(d('Sun Oct 9'), d('Sun Oct 30'))).to eq(150 * 3600)
+        expect(seconds_in_date_range(d('Sun Oct 9'), d('Mon Oct 31'))).to eq(158 * 3600)
+        expect(seconds_in_date_range(d('Sun Oct 9'), d('Tue Nov 1'))).to eq(168 * 3600)
+        expect(seconds_in_date_range(d('Sun Oct 9'), d('Wed Nov 2'))).to eq(177 * 3600)
+        expect(seconds_in_date_range(d('Sun Oct 9'), d('Thu Nov 3'))).to eq(187 * 3600)
+        expect(seconds_in_date_range(d('Sun Oct 9'), d('Fri Nov 4'))).to eq(195 * 3600)
+        expect(seconds_in_date_range(d('Sun Oct 9'), d('Sat Nov 5'))).to eq(200 * 3600)
+      end
+    end
   end
 
   describe '#time_before' do
