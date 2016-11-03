@@ -14,6 +14,7 @@ class BusinessTimeCalculator::Schedule
   def initialize(times)
     @times = unpack_times(times)
     @seconds_per_week = @times.values.map(&:seconds).inject(&:+)
+    @seconds_in_wday_ranges = calculate_seconds_in_wday_ranges
     @hours_per_day = 8 * 3600
   end
 
@@ -21,6 +22,10 @@ class BusinessTimeCalculator::Schedule
     day = @times[wday]
     return 0 unless day
     day.seconds
+  end
+
+  def seconds_in_date_range(first_date, second_date)
+    @seconds_in_wday_ranges[[first_date.wday, second_date.wday]]
   end
 
   def time_before(time)
@@ -46,13 +51,22 @@ class BusinessTimeCalculator::Schedule
   attr_reader :beginning_of_day, :end_of_day
 
   def unpack_times(times)
-    hash = {}
-    times.each do |days, day_times|
+    times.each_with_object({}) do |(days, day_times), hash|
       days.each do |day|
         hash[WDAYS[day]] = BusinessTimeCalculator::WorkDay.new(day_times)
       end
     end
-    hash
+  end
+
+  def calculate_seconds_in_wday_ranges
+    (0..6).each_with_object({}) do |first_wday, hash|
+      total_seconds = 0
+      (0..5).each do |offset|
+        second_wday = (first_wday + offset) % 7
+        total_seconds += seconds_per_day(second_wday)
+        hash[[first_wday, second_wday]] = total_seconds
+      end
+    end
   end
 
   def time_intersection(segment1, segment2)
