@@ -8,22 +8,22 @@ describe BusinessTimeCalculator::HolidayCollection do
       })
     end
 
-    def between(*args)
+    def days_in_date_range(*args)
       holidays = [d('Sun Oct 30'), d('Tue Nov 1'), d('Tue Nov 8')]
-      described_class.new(collection: holidays, schedule: schedule).between(*args)
+      described_class.new(collection: holidays, schedule: schedule).days_in_date_range(*args)
     end
 
     it 'returns holidays between two days' do
-      expect(between(d('Mon Oct 31'), d('Wed Nov 2'))).to eq(1)
+      expect(days_in_date_range(d('Mon Oct 31'), d('Wed Nov 2'))).to eq(1)
     end
 
     it 'excludes holidays in weekends' do
-      expect(between(d('Sat Oct 29'), d('Wed Nov 2'))).to eq(1)
+      expect(days_in_date_range(d('Sat Oct 29'), d('Wed Nov 2'))).to eq(1)
     end
 
     it 'adds the edges' do
-      expect(between(d('Tue Nov 1'), d('Thu Nov 3'))).to eq(1)
-      expect(between(d('Sat Oct 29'), d('Tue Nov 1'))).to eq(1)
+      expect(days_in_date_range(d('Tue Nov 1'), d('Thu Nov 3'))).to eq(1)
+      expect(days_in_date_range(d('Sat Oct 29'), d('Tue Nov 1'))).to eq(1)
     end
   end
 

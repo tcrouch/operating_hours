@@ -6,7 +6,7 @@ class BusinessTimeCalculator::HolidayCollection
     @dates = calculate_holidays_time(collection)
   end
 
-  def between(first_date, second_date)
+  def days_in_date_range(first_date, second_date)
     holidays_before(second_date + 1) - holidays_before(first_date)
   end
 
