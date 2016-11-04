@@ -23,6 +23,12 @@ module BusinessTimeCalculator
       schedule.seconds_until_end_of_day(time)
     end
 
+    def days_between_dates(first_date, second_date)
+      return 0 if first_date == second_date
+      schedule.days_in_date_range(first_date, second_date - 1) -
+        holidays.days_in_date_range(first_date, second_date - 1)
+    end
+
     def holiday?(time)
       holidays.include?(time.to_date)
     end

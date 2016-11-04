@@ -123,4 +123,56 @@ describe BusinessTimeCalculator::Calculator do
       end
     end
   end
+
+  describe '.days_between_dates' do
+    let(:holidays) do
+      [
+        d('Fri Jan 1'),
+        d('Mon Jan 18'),
+        d('Mon Feb 15'),
+        d('Mon May 30'),
+        d('Mon Jul 4'),
+        d('Mon Sep 5'),
+        d('Mon Oct 10'),
+        d('Fri Nov 11'),
+        d('Thu Nov 24'),
+        d('Sun Dec 25'),
+        Date.new(2017, 1, 1),
+        Date.new(2017, 1, 30)
+      ]
+    end
+
+    def days_between_dates(*args)
+      subject.days_between_dates(*args)
+    end
+
+    it 'calculates days between two dates' do
+      expect(days_between_dates(d('Fri Jan 1'), d('Fri Jan 1'))).to eq(0)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Jan 4'))).to eq(0)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Jan 18'))).to eq(10)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Feb 8'))).to eq(24)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Feb 15'))).to eq(29)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Feb 29'))).to eq(38)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Mar 28'))).to eq(58)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Apr 4'))).to eq(63)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Apr 25'))).to eq(78)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon May 2'))).to eq(83)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon May 30'))).to eq(103)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Jun 6'))).to eq(107)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Jun 27'))).to eq(122)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Jul 4'))).to eq(127)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Jul 25'))).to eq(141)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Aug 1'))).to eq(146)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Aug 29'))).to eq(166)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Sep 5'))).to eq(171)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Sep 26'))).to eq(185)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Oct 3'))).to eq(190)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Oct 10'))).to eq(195)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Oct 31'))).to eq(209)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Nov 28'))).to eq(227)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Dec 5'))).to eq(232)
+      expect(days_between_dates(d('Fri Jan 1'), d('Mon Dec 26'))).to eq(247)
+      expect(days_between_dates(d('Fri Jan 1'), d('Fri Dec 30'))).to eq(251)
+    end
+  end
 end
