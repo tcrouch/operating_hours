@@ -14,7 +14,9 @@ class BusinessTimeCalculator::Schedule
   def initialize(times)
     @times = unpack_times(times)
     @seconds_per_week = @times.values.map(&:seconds).inject(&:+)
+    @days_per_week = @times.keys.count
     @seconds_in_wday_ranges = calculate_seconds_in_wday_ranges
+    @days_in_wday_ranges = calculate_days_in_wday_ranges
   end
 
   def seconds_per_wday(wday)
@@ -29,6 +31,14 @@ class BusinessTimeCalculator::Schedule
     seconds = @seconds_per_week * full_weeks
     return seconds if number_of_days % 7 == 0
     seconds + @seconds_in_wday_ranges[[first_date.wday, second_date.wday]]
+  end
+
+  def days_in_date_range(first_date, second_date)
+    number_of_days = (second_date - first_date + 1).to_i
+    full_weeks = number_of_days / 7
+    work_days = @days_per_week * full_weeks
+    return work_days if number_of_days % 7 == 0
+    work_days + @days_in_wday_ranges[[first_date.wday, second_date.wday]]
   end
 
   def seconds_since_beginning_of_day(time)
@@ -66,6 +76,17 @@ class BusinessTimeCalculator::Schedule
         second_wday = (first_wday + offset) % 7
         total_seconds += seconds_per_wday(second_wday)
         hash[[first_wday, second_wday]] = total_seconds
+      end
+    end
+  end
+
+  def calculate_days_in_wday_ranges
+    (0..6).each_with_object({}) do |first_wday, hash|
+      total_days = 0
+      (0..5).each do |offset|
+        second_wday = (first_wday + offset) % 7
+        total_days += 1 if @times.has_key?(second_wday)
+        hash[[first_wday, second_wday]] = total_days
       end
     end
   end

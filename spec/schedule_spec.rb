@@ -197,6 +197,151 @@ describe BusinessTimeCalculator::Schedule do
     end
   end
 
+  describe '#days_in_date_range' do
+    def days_in_date_range(*args)
+      options = { [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]] }
+      described_class.new(options).days_in_date_range(*args)
+    end
+
+    describe 'dates less than a week apart' do
+      it 'returns days in ranges starting on a Monday' do
+        expect(days_in_date_range(d('Mon Oct 31'), d('Mon Oct 31'))).to eq(1)
+        expect(days_in_date_range(d('Mon Oct 31'), d('Tue Nov 1'))).to eq(2)
+        expect(days_in_date_range(d('Mon Oct 31'), d('Wed Nov 2'))).to eq(3)
+        expect(days_in_date_range(d('Mon Oct 31'), d('Thu Nov 3'))).to eq(4)
+        expect(days_in_date_range(d('Mon Oct 31'), d('Fri Nov 4'))).to eq(5)
+        expect(days_in_date_range(d('Mon Oct 31'), d('Sat Nov 5'))).to eq(5)
+      end
+
+      it 'returns days in ranges starting on a Tuesday' do
+        expect(days_in_date_range(d('Tue Nov 1'), d('Tue Nov 1'))).to eq(1)
+        expect(days_in_date_range(d('Tue Nov 1'), d('Wed Nov 2'))).to eq(2)
+        expect(days_in_date_range(d('Tue Nov 1'), d('Thu Nov 3'))).to eq(3)
+        expect(days_in_date_range(d('Tue Nov 1'), d('Fri Nov 4'))).to eq(4)
+        expect(days_in_date_range(d('Tue Nov 1'), d('Sat Nov 5'))).to eq(4)
+        expect(days_in_date_range(d('Tue Nov 1'), d('Sun Nov 6'))).to eq(4)
+      end
+
+      it 'returns days in ranges starting on a Wednesday' do
+        expect(days_in_date_range(d('Wed Nov 2'), d('Wed Nov 2'))).to eq(1)
+        expect(days_in_date_range(d('Wed Nov 2'), d('Thu Nov 3'))).to eq(2)
+        expect(days_in_date_range(d('Wed Nov 2'), d('Fri Nov 4'))).to eq(3)
+        expect(days_in_date_range(d('Wed Nov 2'), d('Sat Nov 5'))).to eq(3)
+        expect(days_in_date_range(d('Wed Nov 2'), d('Sun Nov 6'))).to eq(3)
+        expect(days_in_date_range(d('Wed Nov 2'), d('Mon Nov 7'))).to eq(4)
+      end
+
+      it 'returns days in ranges starting on a Thursday' do
+        expect(days_in_date_range(d('Thu Nov 3'), d('Thu Nov 3'))).to eq(1)
+        expect(days_in_date_range(d('Thu Nov 3'), d('Fri Nov 4'))).to eq(2)
+        expect(days_in_date_range(d('Thu Nov 3'), d('Sat Nov 5'))).to eq(2)
+        expect(days_in_date_range(d('Thu Nov 3'), d('Sun Nov 6'))).to eq(2)
+        expect(days_in_date_range(d('Thu Nov 3'), d('Mon Nov 7'))).to eq(3)
+        expect(days_in_date_range(d('Thu Nov 3'), d('Tue Nov 8'))).to eq(4)
+      end
+
+      it 'returns days in ranges starting on a Friday' do
+        expect(days_in_date_range(d('Fri Nov 4'), d('Fri Nov 4'))).to eq(1)
+        expect(days_in_date_range(d('Fri Nov 4'), d('Sat Nov 5'))).to eq(1)
+        expect(days_in_date_range(d('Fri Nov 4'), d('Sun Nov 6'))).to eq(1)
+        expect(days_in_date_range(d('Fri Nov 4'), d('Mon Nov 7'))).to eq(2)
+        expect(days_in_date_range(d('Fri Nov 4'), d('Tue Nov 8'))).to eq(3)
+        expect(days_in_date_range(d('Fri Nov 4'), d('Wed Nov 9'))).to eq(4)
+      end
+
+      it 'returns days in ranges starting on a Saturday' do
+        expect(days_in_date_range(d('Sat Nov 5'), d('Sat Nov 5'))).to eq(0)
+        expect(days_in_date_range(d('Sat Nov 5'), d('Sun Nov 6'))).to eq(0)
+        expect(days_in_date_range(d('Sat Nov 5'), d('Mon Nov 7'))).to eq(1)
+        expect(days_in_date_range(d('Sat Nov 5'), d('Tue Nov 8'))).to eq(2)
+        expect(days_in_date_range(d('Sat Nov 5'), d('Wed Nov 9'))).to eq(3)
+        expect(days_in_date_range(d('Sat Nov 5'), d('Thu Nov 10'))).to eq(4)
+      end
+
+      it 'returns days in ranges starting on a Sunday' do
+        expect(days_in_date_range(d('Sun Nov 6'), d('Sun Nov 6'))).to eq(0)
+        expect(days_in_date_range(d('Sun Nov 6'), d('Mon Nov 7'))).to eq(1)
+        expect(days_in_date_range(d('Sun Nov 6'), d('Tue Nov 8'))).to eq(2)
+        expect(days_in_date_range(d('Sun Nov 6'), d('Wed Nov 9'))).to eq(3)
+        expect(days_in_date_range(d('Sun Nov 6'), d('Thu Nov 10'))).to eq(4)
+        expect(days_in_date_range(d('Sun Nov 6'), d('Fri Nov 11'))).to eq(5)
+      end
+    end
+
+    describe 'dates more than a week apart' do
+      it 'returns days in ranges starting on a Monday' do
+        expect(days_in_date_range(d('Mon Oct 3'), d('Mon Oct 24'))).to eq(16)
+        expect(days_in_date_range(d('Mon Oct 3'), d('Tue Oct 25'))).to eq(17)
+        expect(days_in_date_range(d('Mon Oct 3'), d('Wed Oct 26'))).to eq(18)
+        expect(days_in_date_range(d('Mon Oct 3'), d('Thu Oct 27'))).to eq(19)
+        expect(days_in_date_range(d('Mon Oct 3'), d('Fri Oct 28'))).to eq(20)
+        expect(days_in_date_range(d('Mon Oct 3'), d('Sat Oct 29'))).to eq(20)
+        expect(days_in_date_range(d('Mon Oct 3'), d('Sun Oct 30'))).to eq(20)
+      end
+
+      it 'returns days in ranges starting on a Tuesday' do
+        expect(days_in_date_range(d('Tue Oct 4'), d('Tue Oct 25'))).to eq(16)
+        expect(days_in_date_range(d('Tue Oct 4'), d('Wed Oct 26'))).to eq(17)
+        expect(days_in_date_range(d('Tue Oct 4'), d('Thu Oct 27'))).to eq(18)
+        expect(days_in_date_range(d('Tue Oct 4'), d('Fri Oct 28'))).to eq(19)
+        expect(days_in_date_range(d('Tue Oct 4'), d('Sat Oct 29'))).to eq(19)
+        expect(days_in_date_range(d('Tue Oct 4'), d('Sun Oct 30'))).to eq(19)
+        expect(days_in_date_range(d('Tue Oct 4'), d('Mon Oct 31'))).to eq(20)
+      end
+
+      it 'returns days in ranges starting on a Wednesday' do
+        expect(days_in_date_range(d('Wed Oct 5'), d('Wed Oct 26'))).to eq(16)
+        expect(days_in_date_range(d('Wed Oct 5'), d('Thu Oct 27'))).to eq(17)
+        expect(days_in_date_range(d('Wed Oct 5'), d('Fri Oct 28'))).to eq(18)
+        expect(days_in_date_range(d('Wed Oct 5'), d('Sat Oct 29'))).to eq(18)
+        expect(days_in_date_range(d('Wed Oct 5'), d('Sun Oct 30'))).to eq(18)
+        expect(days_in_date_range(d('Wed Oct 5'), d('Mon Oct 31'))).to eq(19)
+        expect(days_in_date_range(d('Wed Oct 5'), d('Tue Nov 1'))).to eq(20)
+      end
+
+      it 'returns days in ranges starting on a Thursday' do
+        expect(days_in_date_range(d('Thu Oct 6'), d('Thu Oct 27'))).to eq(16)
+        expect(days_in_date_range(d('Thu Oct 6'), d('Fri Oct 28'))).to eq(17)
+        expect(days_in_date_range(d('Thu Oct 6'), d('Sat Oct 29'))).to eq(17)
+        expect(days_in_date_range(d('Thu Oct 6'), d('Sun Oct 30'))).to eq(17)
+        expect(days_in_date_range(d('Thu Oct 6'), d('Mon Oct 31'))).to eq(18)
+        expect(days_in_date_range(d('Thu Oct 6'), d('Tue Nov 1'))).to eq(19)
+        expect(days_in_date_range(d('Thu Oct 6'), d('Wed Nov 2'))).to eq(20)
+      end
+
+      it 'returns days in ranges starting on a Friday' do
+        expect(days_in_date_range(d('Fri Oct 7'), d('Fri Oct 28'))).to eq(16)
+        expect(days_in_date_range(d('Fri Oct 7'), d('Sat Oct 29'))).to eq(16)
+        expect(days_in_date_range(d('Fri Oct 7'), d('Sun Oct 30'))).to eq(16)
+        expect(days_in_date_range(d('Fri Oct 7'), d('Mon Oct 31'))).to eq(17)
+        expect(days_in_date_range(d('Fri Oct 7'), d('Tue Nov 1'))).to eq(18)
+        expect(days_in_date_range(d('Fri Oct 7'), d('Wed Nov 2'))).to eq(19)
+        expect(days_in_date_range(d('Fri Oct 7'), d('Thu Nov 3'))).to eq(20)
+      end
+
+      it 'returns days in ranges starting on a Saturday' do
+        expect(days_in_date_range(d('Sat Oct 8'), d('Sat Oct 29'))).to eq(15)
+        expect(days_in_date_range(d('Sat Oct 8'), d('Sun Oct 30'))).to eq(15)
+        expect(days_in_date_range(d('Sat Oct 8'), d('Mon Oct 31'))).to eq(16)
+        expect(days_in_date_range(d('Sat Oct 8'), d('Tue Nov 1'))).to eq(17)
+        expect(days_in_date_range(d('Sat Oct 8'), d('Wed Nov 2'))).to eq(18)
+        expect(days_in_date_range(d('Sat Oct 8'), d('Thu Nov 3'))).to eq(19)
+        expect(days_in_date_range(d('Sat Oct 8'), d('Fri Nov 4'))).to eq(20)
+      end
+
+      it 'returns days in ranges starting on a Sunday' do
+        expect(days_in_date_range(d('Sun Oct 9'), d('Sun Oct 30'))).to eq(15)
+        expect(days_in_date_range(d('Sun Oct 9'), d('Mon Oct 31'))).to eq(16)
+        expect(days_in_date_range(d('Sun Oct 9'), d('Tue Nov 1'))).to eq(17)
+        expect(days_in_date_range(d('Sun Oct 9'), d('Wed Nov 2'))).to eq(18)
+        expect(days_in_date_range(d('Sun Oct 9'), d('Thu Nov 3'))).to eq(19)
+        expect(days_in_date_range(d('Sun Oct 9'), d('Fri Nov 4'))).to eq(20)
+        expect(days_in_date_range(d('Sun Oct 9'), d('Sat Nov 5'))).to eq(20)
+      end
+    end
+
+  end
+
   describe '#seconds_since_beginning_of_day' do
     def seconds_since_beginning_of_day(*args)
       options = {
