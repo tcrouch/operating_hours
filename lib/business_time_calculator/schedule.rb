@@ -44,7 +44,7 @@ class BusinessTimeCalculator::Schedule
   def seconds_since_beginning_of_day(time)
     day = @times[time.wday]
     return 0 unless day
-    time_in_seconds = seconds_in_day(time)
+    time_in_seconds = time_in_seconds(time)
     day.times.map do |start, _end|
       time_intersection([start, time_in_seconds], [start, _end])
     end.inject(&:+)
@@ -53,7 +53,7 @@ class BusinessTimeCalculator::Schedule
   def seconds_until_end_of_day(time)
     day = @times[time.wday]
     return 0 unless day
-    time_in_seconds = seconds_in_day(time)
+    time_in_seconds = time_in_seconds(time)
     day.times.map do |start, _end|
       time_intersection([time_in_seconds, _end], [start, _end])
     end.inject(&:+)
@@ -95,7 +95,7 @@ class BusinessTimeCalculator::Schedule
     [[segment1[1], segment2[1]].min - [segment1[0], segment2[0]].max, 0].max
   end
 
-  def seconds_in_day(time)
+  def time_in_seconds(time)
     time.hour * 3600 + time.min * 60 + time.sec
   end
 end
