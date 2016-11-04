@@ -5,8 +5,8 @@ module BusinessTimeCalculator
       @holidays = HolidayCollection.new(collection: holidays, schedule: @schedule)
     end
 
-    def seconds_between(first_time, last_time)
-      return -1 * seconds_between(last_time, first_time) if last_time < first_time
+    def seconds_between_times(first_time, last_time)
+      return -1 * seconds_between_times(last_time, first_time) if last_time < first_time
       schedule.seconds_in_date_range(first_time.to_date, last_time.to_date) -
         holidays.seconds_in_date_range(first_time.to_date, last_time.to_date) -
         seconds_since_beginning_of_workday(first_time) -
