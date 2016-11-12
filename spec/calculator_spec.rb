@@ -167,4 +167,45 @@ describe BusinessTimeCalculator::Calculator do
       expect(days_between_dates(d('Fri Jan 1'), d('Fri Dec 30'))).to eq(251)
     end
   end
+
+  describe '#add_days_to_date' do
+    let(:holidays) do
+      [
+        d('Fri Jan 1'),
+        d('Mon Jan 18'),
+        d('Mon Feb 15'),
+        d('Mon May 30'),
+        d('Mon Jul 4'),
+        d('Mon Sep 5'),
+        d('Mon Oct 10'),
+        d('Fri Nov 11'),
+        d('Thu Nov 24'),
+        d('Sun Dec 25'),
+        Date.new(2017, 1, 1),
+        Date.new(2017, 1, 30)
+      ]
+    end
+
+    def _add_days_to_date(*args)
+      subject.add_days_to_date(*args)
+    end
+
+    it 'adds business days to a date' do
+      expect(_add_days_to_date(0, d('Fri Jan 1'))).to eq(d('Mon Jan 4'))
+      expect(_add_days_to_date(5, d('Fri Jan 1'))).to eq(d('Mon Jan 11'))
+      expect(_add_days_to_date(10, d('Fri Jan 1'))).to eq(d('Tue Jan 19'))
+      expect(_add_days_to_date(19, d('Fri Jan 1'))).to eq(d('Mon Feb 1'))
+      expect(_add_days_to_date(62, d('Fri Jan 1'))).to eq(d('Fri Apr 1'))
+      expect(_add_days_to_date(83, d('Fri Jan 1'))).to eq(d('Mon May 2'))
+      expect(_add_days_to_date(103, d('Fri Jan 1'))).to eq(d('Tue May 31'))
+      expect(_add_days_to_date(123, d('Fri Jan 1'))).to eq(d('Tue Jun 28'))
+      expect(_add_days_to_date(146, d('Fri Jan 1'))).to eq(d('Mon Aug 1'))
+      expect(_add_days_to_date(189, d('Fri Jan 1'))).to eq(d('Fri Sep 30'))
+      expect(_add_days_to_date(199, d('Fri Jan 1'))).to eq(d('Mon Oct 17'))
+      expect(_add_days_to_date(209, d('Fri Jan 1'))).to eq(d('Mon Oct 31'))
+      expect(_add_days_to_date(219, d('Fri Jan 1'))).to eq(d('Tue Nov 15'))
+      expect(_add_days_to_date(246, d('Fri Jan 1'))).to eq(d('Fri Dec 23'))
+      expect(_add_days_to_date(251, d('Fri Jan 1'))).to eq(d('Fri Dec 30'))
+    end
+  end
 end

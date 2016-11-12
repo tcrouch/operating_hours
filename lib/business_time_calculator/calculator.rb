@@ -33,6 +33,15 @@ module BusinessTimeCalculator
       holidays.include?(time.to_date)
     end
 
+    def add_days_to_date(days, date)
+      holiday_count = 0
+      loop do
+        last_date = schedule.add_days_to_date(days + holiday_count, date)
+        return last_date if holiday_count == holidays.days_in_date_range(date, last_date)
+        holiday_count = holidays.days_in_date_range(date, last_date)
+      end
+    end
+
     private
 
     attr_reader :holidays, :schedule

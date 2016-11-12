@@ -441,4 +441,127 @@ describe BusinessTimeCalculator::Schedule do
       expect(seconds_until_end_of_day(t('Sun Nov 6', '19:00'))).to eq(0)
     end
   end
+
+  describe '#add_days_to_date' do
+    def add_days_to_date(*args)
+      options = { [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]] }
+      described_class.new(options).add_days_to_date(*args)
+    end
+
+    describe 'less than 5 (work week) days' do
+      it 'returns N business days from Monday' do
+        expect(add_days_to_date(0, d('Mon Oct 31'))).to eq(d('Mon Oct 31'))
+        expect(add_days_to_date(1, d('Mon Oct 31'))).to eq(d('Tue Nov 1'))
+        expect(add_days_to_date(2, d('Mon Oct 31'))).to eq(d('Wed Nov 2'))
+        expect(add_days_to_date(3, d('Mon Oct 31'))).to eq(d('Thu Nov 3'))
+        expect(add_days_to_date(4, d('Mon Oct 31'))).to eq(d('Fri Nov 4'))
+      end
+
+      it 'returns N business days from Tuesday' do
+        expect(add_days_to_date(0, d('Tue Nov 1'))).to eq(d('Tue Nov 1'))
+        expect(add_days_to_date(1, d('Tue Nov 1'))).to eq(d('Wed Nov 2'))
+        expect(add_days_to_date(2, d('Tue Nov 1'))).to eq(d('Thu Nov 3'))
+        expect(add_days_to_date(3, d('Tue Nov 1'))).to eq(d('Fri Nov 4'))
+        expect(add_days_to_date(4, d('Tue Nov 1'))).to eq(d('Mon Nov 7'))
+      end
+
+      it 'returns N business days from Wednesday' do
+        expect(add_days_to_date(0, d('Wed Nov 2'))).to eq(d('Wed Nov 2'))
+        expect(add_days_to_date(1, d('Wed Nov 2'))).to eq(d('Thu Nov 3'))
+        expect(add_days_to_date(2, d('Wed Nov 2'))).to eq(d('Fri Nov 4'))
+        expect(add_days_to_date(3, d('Wed Nov 2'))).to eq(d('Mon Nov 7'))
+        expect(add_days_to_date(4, d('Wed Nov 2'))).to eq(d('Tue Nov 8'))
+      end
+
+      it 'returns N business days from Thursday' do
+        expect(add_days_to_date(0, d('Thu Nov 3'))).to eq(d('Thu Nov 3'))
+        expect(add_days_to_date(1, d('Thu Nov 3'))).to eq(d('Fri Nov 4'))
+        expect(add_days_to_date(2, d('Thu Nov 3'))).to eq(d('Mon Nov 7'))
+        expect(add_days_to_date(3, d('Thu Nov 3'))).to eq(d('Tue Nov 8'))
+        expect(add_days_to_date(4, d('Thu Nov 3'))).to eq(d('Wed Nov 9'))
+      end
+
+      it 'returns N business days from Friday' do
+        expect(add_days_to_date(0, d('Fri Nov 4'))).to eq(d('Fri Nov 4'))
+        expect(add_days_to_date(1, d('Fri Nov 4'))).to eq(d('Mon Nov 7'))
+        expect(add_days_to_date(2, d('Fri Nov 4'))).to eq(d('Tue Nov 8'))
+        expect(add_days_to_date(3, d('Fri Nov 4'))).to eq(d('Wed Nov 9'))
+        expect(add_days_to_date(4, d('Fri Nov 4'))).to eq(d('Thu Nov 10'))
+      end
+
+      it 'returns N business days from Saturday' do
+        expect(add_days_to_date(0, d('Sat Nov 5'))).to eq(d('Mon Nov 7'))
+        expect(add_days_to_date(1, d('Sat Nov 5'))).to eq(d('Tue Nov 8'))
+        expect(add_days_to_date(2, d('Sat Nov 5'))).to eq(d('Wed Nov 9'))
+        expect(add_days_to_date(3, d('Sat Nov 5'))).to eq(d('Thu Nov 10'))
+        expect(add_days_to_date(4, d('Sat Nov 5'))).to eq(d('Fri Nov 11'))
+      end
+
+      it 'returns N business days from Sunday' do
+        expect(add_days_to_date(0, d('Sun Nov 6'))).to eq(d('Mon Nov 7'))
+        expect(add_days_to_date(1, d('Sun Nov 6'))).to eq(d('Tue Nov 8'))
+        expect(add_days_to_date(2, d('Sun Nov 6'))).to eq(d('Wed Nov 9'))
+        expect(add_days_to_date(3, d('Sun Nov 6'))).to eq(d('Thu Nov 10'))
+        expect(add_days_to_date(4, d('Sun Nov 6'))).to eq(d('Fri Nov 11'))
+      end
+    end
+
+    describe 'more than 5 days (work week)' do
+      it 'returns N business days from Monday' do
+        expect(add_days_to_date(10, d('Mon Oct 31'))).to eq(d('Mon Nov 14'))
+        expect(add_days_to_date(11, d('Mon Oct 31'))).to eq(d('Tue Nov 15'))
+        expect(add_days_to_date(12, d('Mon Oct 31'))).to eq(d('Wed Nov 16'))
+        expect(add_days_to_date(13, d('Mon Oct 31'))).to eq(d('Thu Nov 17'))
+        expect(add_days_to_date(14, d('Mon Oct 31'))).to eq(d('Fri Nov 18'))
+      end
+
+      it 'returns N business days from Tuesday' do
+        expect(add_days_to_date(10, d('Tue Nov 1'))).to eq(d('Tue Nov 15'))
+        expect(add_days_to_date(11, d('Tue Nov 1'))).to eq(d('Wed Nov 16'))
+        expect(add_days_to_date(12, d('Tue Nov 1'))).to eq(d('Thu Nov 17'))
+        expect(add_days_to_date(13, d('Tue Nov 1'))).to eq(d('Fri Nov 18'))
+        expect(add_days_to_date(14, d('Tue Nov 1'))).to eq(d('Mon Nov 21'))
+      end
+
+      it 'returns N business days from Wednesday' do
+        expect(add_days_to_date(10, d('Wed Nov 2'))).to eq(d('Wed Nov 16'))
+        expect(add_days_to_date(11, d('Wed Nov 2'))).to eq(d('Thu Nov 17'))
+        expect(add_days_to_date(12, d('Wed Nov 2'))).to eq(d('Fri Nov 18'))
+        expect(add_days_to_date(13, d('Wed Nov 2'))).to eq(d('Mon Nov 21'))
+        expect(add_days_to_date(14, d('Wed Nov 2'))).to eq(d('Tue Nov 22'))
+      end
+
+      it 'returns N business days from Thursday' do
+        expect(add_days_to_date(10, d('Thu Nov 3'))).to eq(d('Thu Nov 17'))
+        expect(add_days_to_date(11, d('Thu Nov 3'))).to eq(d('Fri Nov 18'))
+        expect(add_days_to_date(12, d('Thu Nov 3'))).to eq(d('Mon Nov 21'))
+        expect(add_days_to_date(13, d('Thu Nov 3'))).to eq(d('Tue Nov 22'))
+        expect(add_days_to_date(14, d('Thu Nov 3'))).to eq(d('Wed Nov 23'))
+      end
+
+      it 'returns N business days from Friday' do
+        expect(add_days_to_date(10, d('Fri Nov 4'))).to eq(d('Fri Nov 18'))
+        expect(add_days_to_date(11, d('Fri Nov 4'))).to eq(d('Mon Nov 21'))
+        expect(add_days_to_date(12, d('Fri Nov 4'))).to eq(d('Tue Nov 22'))
+        expect(add_days_to_date(13, d('Fri Nov 4'))).to eq(d('Wed Nov 23'))
+        expect(add_days_to_date(14, d('Fri Nov 4'))).to eq(d('Thu Nov 24'))
+      end
+
+      it 'returns N business days from Saturday' do
+        expect(add_days_to_date(10, d('Sat Nov 5'))).to eq(d('Mon Nov 21'))
+        expect(add_days_to_date(11, d('Sat Nov 5'))).to eq(d('Tue Nov 22'))
+        expect(add_days_to_date(12, d('Sat Nov 5'))).to eq(d('Wed Nov 23'))
+        expect(add_days_to_date(13, d('Sat Nov 5'))).to eq(d('Thu Nov 24'))
+        expect(add_days_to_date(14, d('Sat Nov 5'))).to eq(d('Fri Nov 25'))
+      end
+
+      it 'returns N business days from Sunday' do
+        expect(add_days_to_date(10, d('Sun Nov 6'))).to eq(d('Mon Nov 21'))
+        expect(add_days_to_date(11, d('Sun Nov 6'))).to eq(d('Tue Nov 22'))
+        expect(add_days_to_date(12, d('Sun Nov 6'))).to eq(d('Wed Nov 23'))
+        expect(add_days_to_date(13, d('Sun Nov 6'))).to eq(d('Thu Nov 24'))
+        expect(add_days_to_date(14, d('Sun Nov 6'))).to eq(d('Fri Nov 25'))
+      end
+    end
+  end
 end
