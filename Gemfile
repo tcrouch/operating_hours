@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in business_time_calculator.gemspec
+# Specify your gem's dependencies in fast_business_time.gemspec
 gemspec

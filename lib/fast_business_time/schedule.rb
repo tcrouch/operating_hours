@@ -1,4 +1,4 @@
-class BusinessTimeCalculator::Schedule
+class FastBusinessTime::Schedule
   WDAYS = {
     sun: 0,
     mon: 1,
@@ -72,7 +72,7 @@ class BusinessTimeCalculator::Schedule
   def unpack_times(times)
     times.each_with_object({}) do |(days, day_times), hash|
       days.each do |day|
-        hash[WDAYS[day]] = BusinessTimeCalculator::WorkDay.new(day_times)
+        hash[WDAYS[day]] = FastBusinessTime::WorkDay.new(day_times)
       end
     end
   end

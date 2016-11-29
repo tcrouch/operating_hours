@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'business_time_calculator/version'
+require 'fast_business_time/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "business_time_calculator"
-  spec.version       = BusinessTimeCalculator::VERSION
+  spec.name          = "fast_business_time"
+  spec.version       = FastBusinessTime::VERSION
   spec.authors       = ["Jordi Noguera"]
   spec.email         = ["jordinoguera83@gmail.com"]
 

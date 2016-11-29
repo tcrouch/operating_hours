@@ -1,4 +1,4 @@
-module BusinessTimeCalculator
+module FastBusinessTime
   class Calculator
     def initialize(schedule:, holidays: [])
       @schedule = Schedule.new(schedule)

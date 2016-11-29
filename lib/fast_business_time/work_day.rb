@@ -1,4 +1,4 @@
-class BusinessTimeCalculator::WorkDay
+class FastBusinessTime::WorkDay
   attr_reader :times, :seconds
 
   def initialize(times)

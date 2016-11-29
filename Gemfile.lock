@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    business_time_calculator (0.1.0)
+    fast_business_time (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -34,7 +34,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.12)
-  business_time_calculator!
+  fast_business_time!
   pry
   rake (~> 10.0)
   rspec

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe BusinessTimeCalculator::HolidayCollection do
+describe FastBusinessTime::HolidayCollection do
   describe 'between' do
     let(:schedule) do
-      BusinessTimeCalculator::Schedule.new({
+      FastBusinessTime::Schedule.new({
         [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]]
       })
     end
@@ -29,7 +29,7 @@ describe BusinessTimeCalculator::HolidayCollection do
 
   describe 'seconds_in_date_range' do
     let(:schedule) do
-      BusinessTimeCalculator::Schedule.new({
+      FastBusinessTime::Schedule.new({
         [:mon, :tue] => [[9 * 3600, 17 * 3600]],
         [:wed, :thu, :fri] => [[9 * 3600, 18 * 3600]]
       })
@@ -56,7 +56,7 @@ describe BusinessTimeCalculator::HolidayCollection do
 
   describe 'include?' do
     let(:schedule) do
-      BusinessTimeCalculator::Schedule.new({
+      FastBusinessTime::Schedule.new({
         [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]]
       })
     end

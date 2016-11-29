@@ -1,3 +1,3 @@
-module BusinessTimeCalculator
+module FastBusinessTime
   VERSION = "0.1.0"
 end

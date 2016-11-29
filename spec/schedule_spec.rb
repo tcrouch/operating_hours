@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BusinessTimeCalculator::Schedule do
+describe FastBusinessTime::Schedule do
   describe '#seconds_per_week' do
     it 'returns the total seconds in a week' do
       options = { [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]] }

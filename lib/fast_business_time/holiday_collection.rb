@@ -1,6 +1,6 @@
 require 'set'
 
-class BusinessTimeCalculator::HolidayCollection
+class FastBusinessTime::HolidayCollection
   def initialize(collection:, schedule:)
     @schedule = schedule
     @dates = calculate_holidays_time(collection)
