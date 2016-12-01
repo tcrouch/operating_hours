@@ -1,6 +1,6 @@
 # FastBusinessTime
 
-Calculate business time between two dates or times. Inspired by [business_time](https://github.com/bokmann/business_time) but with significantly better performance.
+Time calculations based on business hours. Inspired by [business_time](https://github.com/bokmann/business_time) but with significantly better performance.
 
 ## Installation
 

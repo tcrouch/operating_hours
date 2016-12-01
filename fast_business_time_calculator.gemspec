@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Jordi Noguera']
   spec.email         = ['jordinoguera83@gmail.com']
 
-  spec.summary       = %q{Time calculations given business hours}
+  spec.summary       = %q{Time calculations based on business hours}
   spec.homepage      = 'https://github.com/spreemo/fast_business_time'
   spec.license       = 'MIT'
 
