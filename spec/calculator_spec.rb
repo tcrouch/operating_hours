@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FastBusinessTime::Calculator do
+describe OperatingHours::Calculator do
   let(:schedule) do
     { [:mon, :tue, :wed, :thu, :fri] => [[9 * 60 * 60, 17 * 60 * 60]] }
   end

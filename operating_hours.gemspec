@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'fast_business_time/version'
+require 'operating_hours/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'fast_business_time'
-  spec.version       = FastBusinessTime::VERSION
+  spec.name          = 'operating_hours'
+  spec.version       = OperatingHours::VERSION
   spec.authors       = ['Jordi Noguera']
   spec.email         = ['jordinoguera83@gmail.com']
 
   spec.summary       = %q{Time calculations based on business hours}
-  spec.homepage      = 'https://github.com/spreemo/fast_business_time'
+  spec.homepage      = 'https://github.com/spreemo/operating_hours'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

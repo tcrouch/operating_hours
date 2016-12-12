@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "fast_business_time"
+require "operating_hours"
 require "pry"
 Pry.start

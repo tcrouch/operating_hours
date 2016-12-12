@@ -1,4 +1,4 @@
-class FastBusinessTime::WorkDay
+class OperatingHours::WorkDay
   attr_reader :times, :seconds
 
   def initialize(times)

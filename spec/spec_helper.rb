@@ -3,7 +3,7 @@ require 'date'
 require 'time'
 require 'pry'
 
-require_relative '../lib/fast_business_time'
+require_relative '../lib/operating_hours'
 
 def d(string)
   check_weekday(string) do
@@ -19,7 +19,7 @@ end
 
 def check_weekday(string)
   wday_word = string.split(' ')[0].to_s.downcase
-  wday = FastBusinessTime::Schedule::WDAYS[wday_word]
+  wday = OperatingHours::Schedule::WDAYS[wday_word]
   date_or_time = yield
   if wday && date_or_time.wday != wday
     raise 'Wrong weekday entered'

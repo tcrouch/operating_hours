@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe FastBusinessTime::WorkDay do
+describe OperatingHours::WorkDay do
   describe '#seconds' do
     it 'returns the number of seconds in the day' do
       work_day = described_class.new([[9 * 3600, 17 * 3600]])

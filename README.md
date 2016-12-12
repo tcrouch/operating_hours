@@ -1,4 +1,4 @@
-# FastBusinessTime
+# OperatingHours
 
 Time calculations based on business hours. Inspired by [business_time](https://github.com/bokmann/business_time) but with significantly better performance.
 
@@ -7,7 +7,7 @@ Time calculations based on business hours. Inspired by [business_time](https://g
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'fast_business_time'
+gem 'operating_hours'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install fast_business_time
+    $ gem install operating_hours
 
 ## Usage
 
@@ -29,7 +29,7 @@ schedule = {
   [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]]
 }
 holidays = [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
-calculator = FastBusinessTime::Calculator.new(schedule: schedule, holidays: holidays)
+calculator = OperatingHours::Calculator.new(schedule: schedule, holidays: holidays)
 
 ```
 
@@ -49,14 +49,14 @@ It's recommended to memoize the calculators, so you could do:
 ````
 class TimeCalculators
   def self.ny
-	@ny ||= FastBusinessTime::Calculator.new(
+	@ny ||= OperatingHours::Calculator.new(
 	          schedule: [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]],
 	          holidays: [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
 	        )
   end
 
   def self.sf
-  	@sf ||= FastBusinessTime::Calculator.new(
+  	@sf ||= OperatingHours::Calculator.new(
 	          schedule: [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 18 * 3600]],
 	          holidays: [Date.new(2016, 1, 1), Date.new(2016, 12, 25)]
 	        )
@@ -82,7 +82,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/spreemo/fast_business_time. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/spreemo/operating_hours. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
