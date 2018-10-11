@@ -24,7 +24,7 @@ Or install it yourself as:
 
 First initialize a calculator, a calculator needs a `schedule` and `holidays`:
 
-```
+```ruby
 schedule = {
   [:mon, :tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]]
 }
@@ -35,7 +35,7 @@ calculator = OperatingHours::Calculator.new(schedule: schedule, holidays: holida
 
 `schedule` is a hash whose keys are an array of weekdays and the values are an array of time intervals in seconds since the beginning of the day. So if we have a business that works on Monday 9:00-13:00, 14:00-17:30 and Tue-Fri 9:00-17:00 we would set schedule to:
 
-````
+````ruby
 schedule = {
   [:mon] => [[9 * 3600, 13 * 3600], [14 * 3600, 17 * 3600 + 30 * 60]],
   [:tue, :wed, :thu, :fri] => [[9 * 3600, 17 * 3600]]]
@@ -46,7 +46,7 @@ schedule = {
 
 It's recommended to memoize the calculators, so you could do:
 
-````
+````ruby
 class TimeCalculators
   def self.ny
 	@ny ||= OperatingHours::Calculator.new(
